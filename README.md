@@ -22,3 +22,12 @@ The satellite internet provider charges the cruise ship based on the number of T
 - Processes HTTP requests directly and establishes tunnels for HTTPS.
 
 ---
+## command to run the client and server via docker
+- docker run -d --name offshore_proxy -p 9999:9999 mazin01/offshore-proxy
+  -- {offshore proxy server container ip} = docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" offshore_proxy
+- docker run -d --name ship_proxy -p 8080:8080 --add-host=offshore_proxy_server:{offshore proxy server container ip} mazin01/ship-proxy
+## test commands
+-- curl.exe -x http://localhost:8080 https://example.com/
+-- curl.exe -x http://localhost:8080 https://example.com/
+-- curl.exe -x http://localhost:8080 http://neverssl.com/
+---   
