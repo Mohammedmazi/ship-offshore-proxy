@@ -23,9 +23,23 @@ The satellite internet provider charges the cruise ship based on the number of T
 
 ---
 ## command to run the client and server via docker
-- docker run -d --name offshore_proxy -p 9999:9999 mazin01/offshore-proxy
-  -- {offshore proxy server container ip} = docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" offshore_proxy
-- docker run -d --name ship_proxy -p 8080:8080 --add-host=offshore_proxy_server:{offshore proxy server container ip} mazin01/ship-proxy
+
+docker pull mazin01/offshore-proxy:latest
+docker pull mazin01/ship-proxy:latest
+
+docker network create proxy-net
+
+docker run -d --name offshore_proxy --network proxy-net -p 9999:9999 mazin01/offshore-proxy:latest
+
+docker run -d --name ship_proxy --network proxy-net -p 8080:8080 mazin01/ship-proxy:latest
+
+curl -x http://localhost:8080 http://example.com
+
+curl -x http://localhost:8080 https://example.com
+
+docker rm -f ship_proxy offshore_proxy
+
+docker network rm proxy-net
 ## test commands
 -- curl.exe -x http://localhost:8080 https://example.com/
 -- curl.exe -x http://localhost:8080 https://example.com/
