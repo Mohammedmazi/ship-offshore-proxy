@@ -5,7 +5,7 @@ import struct
 from queue import Queue
 
 LISTEN_PORT = 8080
-OFFSHORE_HOST = 'offshore_proxy_server'
+OFFSHORE_HOST = 'offshore_proxy'
 OFFSHORE_PORT = 9999
 
 request_queue = Queue()
